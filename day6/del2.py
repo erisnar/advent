@@ -1,27 +1,36 @@
 #! /usr/bin/env python3
 
+from collections import defaultdict
 import numpy as np
 
 def readFile():
-    lines = np.loadtxt("input", delimiter=",", unpack=False, dtype=int)
-    return lines
+    fish_data = defaultdict(int)
+
+    with open("input", "r") as f:
+        input = f.read() # Read all file in case values are not on a single line
+        fish_raw_data = [ int(x) for x in input.split(",") ] # Convert strings to ints
+        for i in fish_raw_data:
+            fish_data[i] += 1
+    return fish_data
 
 def main():
-    school = readFile()
-    print(school)
+    d = readFile()
+    print(d)
 
     i = 1
-    while(i < 81):
-        for j in range(len(school)):
-            if school[j] == 0:
-                school[j] = 6
-                school = np.append(school, 8)
+    while(i < 257):
+        tmp_fish_data = defaultdict(int)
+        for fish_state, count in d.items():
+            if fish_state == 0:
+                tmp_fish_data[8] += count
+                tmp_fish_data[6] += count
             else:
-                school[j] = school[j] - 1
-        print("After ", i, " days:", school)
+                tmp_fish_data[fish_state -1] += count
+        d = tmp_fish_data 
+        # print("After ", i, " days:", school)
         i += 1
 
-    print(len(school))
+    print(sum(d.values()))
 
 # Control execution of code
 if __name__ == "__main__":
