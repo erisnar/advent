@@ -19,12 +19,9 @@ def main():
         else:
             elfs[i] += int(calories)
 
-    # Sorting the  list
     elfs.sort()
     
-    # Printing the second last element
     print("Top 3:", (elfs[-1]+elfs[-2]+elfs[-3]))
-    
 
 # Control execution of code
 if __name__ == "__main__":
